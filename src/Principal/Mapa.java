@@ -6,20 +6,17 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
     public class Mapa {    
-    public int x, y;
+    public int x, y,bargasx;
     public Image map;
-    public Image barrav;
-    public Image barraa;
-    public Image barrar;  
+    public Image barragas;
     public Image vidas[]=new Image[4];
     public Mapa(){        
         x = 0;
-        y = -14349;        
+        y = -14349;
+        bargasx=400;        
         try{            
             map = ImageIO.read( new File("src/Imagenes/Nivel/allStages.png"));
-            barrav = ImageIO.read( new File("src/Imagenes/Nivel/verde-min.png"));
-            barraa = ImageIO.read( new File("src/Imagenes/Nivel/rojo-min.png"));
-            barrar = ImageIO.read( new File("src/Imagenes/Nivel/amarillo-min.png"));
+            barragas = ImageIO.read( new File("src/Imagenes/Nivel/barragas.png"));
             vidas[0] = ImageIO.read( new File("src/Imagenes/Nivel/0vidas-min.png"));
             vidas[1] = ImageIO.read( new File("src/Imagenes/Nivel/1vida-min.png"));
             vidas[2] = ImageIO.read( new File("src/Imagenes/Nivel/2vidas-min.png"));

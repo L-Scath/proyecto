@@ -32,7 +32,7 @@ public class Lienzo extends JPanel{
             paredd[i]=new ParedDer();
         }                
         tdt=30;
-        mov=10;
+        mov=9;
         obs_c= new Terreno();
         enemigo1 = new Enemigo();
         jugador = new Jugador();
@@ -64,6 +64,7 @@ public class Lienzo extends JPanel{
         g2.drawImage(bum.explosion, bum.x, bum.y, this);        
         g2.drawImage(obs_c.ob, obs_c.x, obs_c.y, this);
         g2.drawImage(obs_c.ob, obs_c.x, obs_c.y, this);
+        g2.drawImage(rio.barragas,rio.bargasx,590,this);       
         g2.drawImage(rio.vidas[jugador.vidas],this.getWidth()-(int)rio.vidas[0].getWidth(this),this.getHeight()-(int)rio.vidas[0].getHeight(this), this);
 
     }   

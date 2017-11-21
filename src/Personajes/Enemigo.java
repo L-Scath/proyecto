@@ -13,7 +13,7 @@ public class Enemigo {
     public Random n = new Random();
     
     public Enemigo(){        
-        x = n.nextInt(800) ;
+        x = n.nextInt(400)+250 ;
         y = 0;        
         try{            
             enemigo = ImageIO.read( new File("src/Imagenes/Npc/enemigo1.png"));            

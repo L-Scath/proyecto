@@ -88,7 +88,7 @@ public class Juego extends JFrame{
             pantalla.gasoil.y += pantalla.mov;
             pantalla.enemigo1.y += pantalla.mov;
             pantalla.enemigo1.x += pantalla.mov*b ;
-            pantalla.bala.y -= pantalla.mov*4;
+            pantalla.bala.y -= 30;
             pantalla.rio.y+=pantalla.mov;
             pantalla.bum.y+=pantalla.mov;
             pantalla.obs_c.y+=pantalla.mov;
@@ -119,11 +119,12 @@ public class Juego extends JFrame{
             
             if( pantalla.jugador.area().intersects(pantalla.gasoil.area())){
                 pantalla.gasoil.y = 1100;
-                pantalla.jugador.cant_gasoil += 20;
+                pantalla.jugador.cant_gasoil += 21;
                 pantalla.jugador.puntaje += 50;
                       try {
                     sonido.sonido(sonido.gas);
                 } catch (IOException ex) {}
+                      pantalla.rio.bargasx+=(27*3);
             }
             
             if (pantalla.bala.area().intersects(pantalla.enemigo1.area())){
@@ -142,8 +143,8 @@ public class Juego extends JFrame{
                 try {
                     sonido.sonido(sonido.explosion);
                 } catch (IOException ex) {}
-                pantalla.bum.x = (int)(pantalla.enemigo1.area().getCenterX()- pantalla.gasoil.area().getWidth()/2);
-                pantalla.bum.y = (int)(pantalla.enemigo1.area().getCenterY()- pantalla.gasoil.area().getHeight()/2);
+                pantalla.bum.x = (int)(pantalla.gasoil.area().getCenterX()- pantalla.bum.area().getWidth()/2);
+                pantalla.bum.y = (int)(pantalla.gasoil.area().getCenterY()- pantalla.bum.area().getHeight()/2);
                 pantalla.gasoil.y = 1100;
                 pantalla.bala.y = -20;
                 cont=1;
@@ -158,14 +159,14 @@ public class Juego extends JFrame{
                 pantalla.bum.y= 1100;
             }  
             
-            if (pantalla.enemigo1.y > 850){
-                pantalla.enemigo1.x = num.nextInt(800);
-                pantalla.enemigo1.y = -200;
+            if (pantalla.enemigo1.y > 850){   
+                pantalla.enemigo1.x = num.nextInt(400)+250;
+                pantalla.enemigo1.y = -10;
             }
             for (int i = 0; i < 350; i++) {
                 if (pantalla.enemigo1.y<=0) {
                     if(pantalla.enemigo1.area().intersects(pantalla.paredd[i].area())||pantalla.enemigo1.area().intersects(pantalla.paredi[i].area()))
-                        pantalla.enemigo1.x=num.nextInt(700);
+                        pantalla.enemigo1.x=num.nextInt(200)+250;
                 }
             }
             
@@ -222,7 +223,7 @@ public class Juego extends JFrame{
             }            
             if(e.getKeyCode() == KeyEvent.VK_UP){
                 pantalla.tdt=10;
-                pantalla.mov=30; 
+                pantalla.mov=18; 
                 pantalla.jugador.nave = pantalla.jugador.naveacel;
             }            
             repaint();            
@@ -232,7 +233,7 @@ public class Juego extends JFrame{
         public void keyReleased(KeyEvent e) {
             if(e.getKeyCode() == KeyEvent.VK_UP){
                 pantalla.tdt=25;
-                pantalla.mov=15;  
+                pantalla.mov=9;  
                 pantalla.jugador.nave = new Jugador().nave;
             }
         }         
@@ -247,22 +248,21 @@ public class Juego extends JFrame{
             if(aux %5 == 0){ // aparece gasolina cada 5 segundos
                 int band=0;
                 for (int i = 0; i < 350; i++) {
-                    pantalla.gasoil.x = num.nextInt(700);
+                    pantalla.gasoil.x = num.nextInt(400)+250;
                         pantalla.gasoil.y = 0;
-                    if(pantalla.paredd[i].area().intersects(pantalla.gasoil.area()) || pantalla.paredi[i].area().intersects(pantalla.gasoil.area())){
-                        pantalla.gasoil.x = num.nextInt(700);
+                    if(pantalla.paredd[i].area().contains(pantalla.gasoil.area()) || pantalla.paredi[i].area().contains(pantalla.gasoil.area())){
+                        pantalla.gasoil.x = num.nextInt(400+250);
                         pantalla.gasoil.y = 0;
                     }
-                    if(pantalla.paredd[i].area().intersects(pantalla.enemigo1.area()) || pantalla.paredi[i].area().intersects(pantalla.enemigo1.area())){
-                        pantalla.enemigo1.x = num.nextInt(700);
+                    if(pantalla.paredd[i].area().contains(pantalla.enemigo1.area()) || pantalla.paredi[i].area().contains(pantalla.enemigo1.area())){
+                        pantalla.enemigo1.x = num.nextInt(400)+250;
                         pantalla.enemigo1.y = 0;
                     }                    
                 }
   
             }
-            if(aux %3 == 0){ // disminuye gasolina cada 3 seguntos
-                pantalla.jugador.cant_gasoil -=0;
-            }
+                pantalla.jugador.cant_gasoil -=7;
+                pantalla.rio.bargasx-=27;
         }
     }; 
  
