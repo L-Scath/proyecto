@@ -64,6 +64,8 @@ public class Lienzo extends JPanel{
         g2.drawImage(bum.explosion, bum.x, bum.y, this);        
         g2.drawImage(obs_c.ob, obs_c.x, obs_c.y, this);
         g2.drawImage(obs_c.ob, obs_c.x, obs_c.y, this);
+        g2.drawImage(rio.vidas[jugador.vidas],this.getWidth()-(int)rio.vidas[0].getWidth(this),this.getHeight()-(int)rio.vidas[0].getHeight(this), this);
+
     }   
     
 }

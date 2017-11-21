@@ -8,13 +8,13 @@ import javax.imageio.ImageIO;
 
 
 public class Jugador {    
-    public int x, y, cant_gasoil, puntaje;
+    public int x, y, vidas,cant_gasoil, puntaje;
     public Image nave,naveacel;  
     
     public Jugador(){        
         x = 0;
         y = 0;
-
+        vidas=3;
         cant_gasoil = 100;
         puntaje = 0;
         try {            

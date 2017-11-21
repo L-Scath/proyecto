@@ -22,7 +22,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-//esto es una prueba
+
 public class Juego extends JFrame{
     Panel p;
     Random num, n;
@@ -87,8 +87,8 @@ public class Juego extends JFrame{
             cont++;
             pantalla.gasoil.y += pantalla.mov;
             pantalla.enemigo1.y += pantalla.mov;
-            pantalla.enemigo1.x = pantalla.enemigo1.x + pantalla.mov * b ;
-            pantalla.bala.y -= pantalla.mov;
+            pantalla.enemigo1.x += pantalla.mov*b ;
+            pantalla.bala.y -= pantalla.mov*4;
             pantalla.rio.y+=pantalla.mov;
             pantalla.bum.y+=pantalla.mov;
             pantalla.obs_c.y+=pantalla.mov;
@@ -151,16 +151,22 @@ public class Juego extends JFrame{
             }
             
             if(pantalla.bala.area().intersects(pantalla.obs_c.area())){
-                pantalla.bala.y = -20;
+                pantalla.bala.y = -20;                
             }
             
             if(cont%5==0){
                 pantalla.bum.y= 1100;
             }  
             
-            if (pantalla.enemigo1.y > 850){                
+            if (pantalla.enemigo1.y > 850){
                 pantalla.enemigo1.x = num.nextInt(800);
-                pantalla.enemigo1.y = 0;
+                pantalla.enemigo1.y = -200;
+            }
+            for (int i = 0; i < 350; i++) {
+                if (pantalla.enemigo1.y<=0) {
+                    if(pantalla.enemigo1.area().intersects(pantalla.paredd[i].area())||pantalla.enemigo1.area().intersects(pantalla.paredi[i].area()))
+                        pantalla.enemigo1.x=num.nextInt(700);
+                }
             }
             
             if (pantalla.obs_c.y > 850){                
@@ -180,11 +186,9 @@ public class Juego extends JFrame{
                 b=b*(-1);
             }
             
-            for (int i = 0; i < 350; i++) {
-                
-                if(pantalla.enemigo1.area().intersects(pantalla.paredd[i].area())  || pantalla.enemigo1.area().intersects(pantalla.paredi[i].area())){
-                    
-                    b = b / -1;
+            for (int i = 0; i < 350; i++) {                
+                if(pantalla.enemigo1.area().intersects(pantalla.paredd[i].area())||pantalla.enemigo1.area().intersects(pantalla.paredi[i].area())){
+                    b=b*(-1);
                 }
             }    
             repaint();            
@@ -245,11 +249,14 @@ public class Juego extends JFrame{
                 for (int i = 0; i < 350; i++) {
                     pantalla.gasoil.x = num.nextInt(700);
                         pantalla.gasoil.y = 0;
-                    while(pantalla.paredd[i].area().contains(pantalla.gasoil.area()) || pantalla.paredi[i].area().contains(pantalla.gasoil.area())){
+                    if(pantalla.paredd[i].area().intersects(pantalla.gasoil.area()) || pantalla.paredi[i].area().intersects(pantalla.gasoil.area())){
                         pantalla.gasoil.x = num.nextInt(700);
                         pantalla.gasoil.y = 0;
-
                     }
+                    if(pantalla.paredd[i].area().intersects(pantalla.enemigo1.area()) || pantalla.paredi[i].area().intersects(pantalla.enemigo1.area())){
+                        pantalla.enemigo1.x = num.nextInt(700);
+                        pantalla.enemigo1.y = 0;
+                    }                    
                 }
   
             }
