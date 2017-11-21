@@ -24,7 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class Juego extends JFrame{
-    Panel p;
+    Panel r;
     Random num, n;
     Timer t1, tiempo;
     Lienzo pantalla;
@@ -37,7 +37,7 @@ public class Juego extends JFrame{
     Menu m;
     Image logo;
 
-    public Juego(){
+    public Juego(){        
         sonido=new Sfx();
         pantalla = new Lienzo();
         tiempo = new Timer(1000,time);        
@@ -119,12 +119,12 @@ public class Juego extends JFrame{
             
             if( pantalla.jugador.area().intersects(pantalla.gasoil.area())){
                 pantalla.gasoil.y = 1100;
-                pantalla.jugador.cant_gasoil += 21;
+                pantalla.jugador.cant_gasoil = 100;
                 pantalla.jugador.puntaje += 50;
                       try {
                     sonido.sonido(sonido.gas);
                 } catch (IOException ex) {}
-                      pantalla.rio.bargasx+=(27*3);
+                      pantalla.rio.bargasx=400;
             }
             
             if (pantalla.bala.area().intersects(pantalla.enemigo1.area())){
@@ -245,6 +245,7 @@ public class Juego extends JFrame{
             aux++;
             String aux2 = Integer.toString(aux);            
             System.out.println("00:"+aux2);
+            pantalla.rio.tiempo=("00:"+aux2);
             if(aux %5 == 0){ // aparece gasolina cada 5 segundos
                 int band=0;
                 for (int i = 0; i < 350; i++) {
@@ -261,8 +262,8 @@ public class Juego extends JFrame{
                 }
   
             }
-                pantalla.jugador.cant_gasoil -=7;
-                pantalla.rio.bargasx-=27;
+                pantalla.jugador.cant_gasoil -=14;
+                pantalla.rio.bargasx-=54;
         }
     }; 
  
