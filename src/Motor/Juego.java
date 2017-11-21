@@ -22,7 +22,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-//----------//fdghdf
+//esto es una prueba
 public class Juego extends JFrame{
     Panel p;
     Random num, n;
