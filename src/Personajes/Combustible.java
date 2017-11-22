@@ -17,7 +17,7 @@ public class Combustible {
     
     public Combustible(){
         
-        x = n.nextInt(800);
+        x = n.nextInt(400)+300;
         y = 0;
         
         try {

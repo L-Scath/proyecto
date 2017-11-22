@@ -1,6 +1,7 @@
 package Menu;
 
 import Motor.Juego;
+import Personajes.Jugador;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -16,6 +17,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import Sonidos.*;
 import java.awt.Button;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -24,12 +30,20 @@ public class Panel extends JPanel{
     Image fond;
     Botones botones;
     String como_jugar = "Movimiento del Avion:\n\n-Derecha:    Flecha Derecha ( > )\n-Izquierda:   Flecha Izquierda ( < )\n-Acelerar:    Flecha Arriba ( ^ )\n-Disparar:    Enter" ;
-    String elaborado_por = "El siguiente juego esta basado\nen el clasico juego de Atari\nRiver Raid, esta es una version\nno oficial de dicho juego con algunos\ncambios en el entorno grafico, pero\ncon la misma logica del juego principal.";
+    String elaborado_por = "Realizado por:\nLuis Torres CI : 26723334          seccion: 01(Prof. Yeniffer Peña) \nLuis Uzcategui CI : 25727657    seccion: 01(Prof. Yeniffer Peña)";
     int seleccion = 0;
+    public String nombre;
+    public String nombres[] = new String[100];
+    public String puntos[] = new String[100];
     Juego j;
     JButton []espacioenblanco=new JButton[5];
     
     public Panel(){
+        
+    }
+
+    public void iniciar(){
+        
         j = new Juego();
         try{
          fond = ImageIO.read(new File("src/Imagenes/Menu/fondM.png"));
@@ -54,8 +68,8 @@ public class Panel extends JPanel{
         super.add(botones.salir);
         eventos();
         repaint();
+        
     }
-
     public void eventos(){
         botones.jugar.addMouseListener(new MouseAdapter(){  
             int auxselec=0;
@@ -67,9 +81,29 @@ public class Panel extends JPanel{
                 botones.band = 1;
                 botones.jugar.setIcon(new ImageIcon(getClass().getResource("/Imagenes/Menu/Jugar" + botones.band +".png")));
             }
-            public void mouseClicked(MouseEvent e) {                
+            public void mouseClicked(MouseEvent e) {
+                nombre = JOptionPane.showInputDialog("Ingrese su nombre:");
+                try {
+                            
+                            File archivo = new File("Usuarios.txt");
+                            FileWriter fw = new FileWriter(archivo,true);                      
+                            BufferedWriter bw = new BufferedWriter(fw);
+                            
+                            fw.append(nombre + "-");
+                            fw.close();//cierro
+                            
+                            
+                            
+                        } catch (IOException ex) {
+                            
+                            System.out.println("Error en escritura de archivo...");
+                            
+                        }
+                
                 j.iniciar();
+                
             }
+            
         } );
         
         botones.top.addMouseListener(new MouseAdapter(){
@@ -83,7 +117,7 @@ public class Panel extends JPanel{
             }
             public void mouseClicked(MouseEvent e) {
                 Icono_Top trofeo = new Icono_Top();
-                JOptionPane.showOptionDialog(null, "Luis Torres 150.000", "Top 10", JOptionPane.OK_OPTION, JOptionPane.DEFAULT_OPTION, trofeo, new Object[] {"Regresar"}, "Regresar");
+                JOptionPane.showOptionDialog(null, " ", "Top 10", JOptionPane.OK_OPTION, JOptionPane.DEFAULT_OPTION, trofeo, new Object[] {"Regresar"}, "Regresar");
             }
         } );
         
@@ -134,19 +168,34 @@ public class Panel extends JPanel{
         } );        
     }
     
-    
-    
-    public int validacion(){    
-        System.out.println(seleccion);
-        if(seleccion ==1 ){
-            System.out.println("SDFSDFSDF");
-            return 1;             
-        }
-        else{            
-            return 0;            
-        }        
+    public void ordenar(){
+        try {
+                            
+                            FileReader archivo = new FileReader("Registros.txt");//busco el archivo
+                            Scanner entrada = new Scanner(archivo);
+                            
+                            String Linea;
+                            int i = 0;
+                            
+                            while(entrada.hasNextLine()){//ciclo mientras se encuentre una nueva linea
+                                
+                                Linea = entrada.nextLine();//se posiciona en la siguiente linea del archivo
+                                String vec[] = Linea.split("-");//en esa linea guardo todo en un vector cada vez que se encuentre un -
+                                nombres[i] = vec[0];//añado el primer elemento del vector a otro vector
+                                puntos[i] = vec[1];//añado el segundo elemento del vector a otro vector
+                                i++;//aumento la posicion de los vectores auxiliares
+                                
+                            }
+                            
+                            
+                        } catch (FileNotFoundException e) {
+                            
+                            System.out.println("No se encontró el archivo...");
+                            
+                        }
+        
     }
-    
+        
         protected void paintComponent(Graphics g) {        
         super.paintComponent(g); //To change body of generated methods, choose Tools | Templates.        
         Graphics2D g2 = (Graphics2D) g;

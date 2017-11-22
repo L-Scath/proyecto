@@ -12,7 +12,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
 import java.util.logging.Level;
@@ -28,14 +30,18 @@ public class Juego extends JFrame{
     Random num, n;
     Timer t1, tiempo;
     Lienzo pantalla;
-    int aux=0;
+    int auxs=0;
+    int auxm=0;
     int cont=0;
-    int b = -1;
+    int b1 = -1;
+    int b2 = -1;
+    int b3 = -1;
     Sfx sonido;
     ActionListener movimiento_enemigo;
     KeyListener comandos; 
     Menu m;
     Image logo;
+    
 
     public Juego(){
         sonido=new Sfx();
@@ -53,6 +59,7 @@ public class Juego extends JFrame{
         cargar_eventos();
         cargarPared();
         t1 = new Timer(pantalla.tdt, movimiento_enemigo);
+        p = new Panel();
         super.setFocusable(true);
         super.setTitle("River Raid");
         super.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -64,7 +71,8 @@ public class Juego extends JFrame{
         super.setVisible(true);
         super.addKeyListener(comandos);
         t1.start();
-        tiempo.start();        
+        tiempo.start();
+                
     }
     
     public void cargarPared(){
@@ -85,10 +93,15 @@ public class Juego extends JFrame{
         @Override
         public void actionPerformed(ActionEvent e) {
             cont++;
+            pantalla.rio.puntaje=Integer.toString(pantalla.jugador.puntaje);
             pantalla.gasoil.y += pantalla.mov;
             pantalla.enemigo1.y += pantalla.mov;
-            pantalla.enemigo1.x += pantalla.mov*b ;
-            pantalla.bala.y -= pantalla.mov*4;
+            pantalla.enemigo1.x += pantalla.mov*b1;
+            pantalla.enemigo2.y += pantalla.mov;
+            pantalla.enemigo2.x += pantalla.mov+25*b2;
+            pantalla.enemigo3.y += pantalla.mov+30;
+            pantalla.enemigo3.x += pantalla.mov*b3;
+            pantalla.bala.y -= 30;
             pantalla.rio.y+=pantalla.mov;
             pantalla.bum.y+=pantalla.mov;
             pantalla.obs_c.y+=pantalla.mov;
@@ -102,28 +115,63 @@ public class Juego extends JFrame{
                 pantalla.bum.x = (int)(pantalla.jugador.area().getCenterX()- pantalla.bum.area().getWidth()/2);
                 pantalla.bum.y = (int)(pantalla.jugador.area().getCenterY()- pantalla.bum.area().getHeight()/2); ;
                                pantalla.enemigo1.y=1100;
+                               pantalla.jugador.x = 450;
                                cont = 1;
+                               pantalla.jugador.vidas -= 1;
+                                  pantalla.jugador.puntaje-=20;
                 try {
                     sonido.sonido(sonido.explosion);
                 } catch (IOException ex){}
-            }            
+                vidas();
+            } 
+            if( pantalla.jugador.area().intersects(pantalla.enemigo2.area())){  
+                pantalla.bum.x = (int)(pantalla.jugador.area().getCenterX()- pantalla.bum.area().getWidth()/2);
+                pantalla.bum.y = (int)(pantalla.jugador.area().getCenterY()- pantalla.bum.area().getHeight()/2); ;
+                               pantalla.enemigo2.y=1100;
+                               pantalla.jugador.x = 450;
+                               cont = 1;
+                               pantalla.jugador.vidas -= 1;
+                                  pantalla.jugador.puntaje-=20;
+                try {
+                    sonido.sonido(sonido.explosion);
+                } catch (IOException ex){}
+                vidas();
+            }
+            if( pantalla.jugador.area().intersects(pantalla.enemigo3.area())){  
+                pantalla.bum.x = (int)(pantalla.jugador.area().getCenterX()- pantalla.bum.area().getWidth()/2);
+                pantalla.bum.y = (int)(pantalla.jugador.area().getCenterY()- pantalla.bum.area().getHeight()/2); ;
+                               pantalla.enemigo3.y=1100;
+                               pantalla.jugador.x = 450;
+                               cont = 1;
+                               pantalla.jugador.vidas -= 1;
+                                  pantalla.jugador.puntaje-=20;
+                try {
+                    sonido.sonido(sonido.explosion);
+                } catch (IOException ex){}
+                vidas();
+            }             
             if( pantalla.jugador.area().intersects(pantalla.obs_c.area())){                
                 pantalla.bum.x = (int)(pantalla.jugador.area().getCenterX()- pantalla.bum.area().getWidth()/2);
                 pantalla.bum.y = (int)(pantalla.jugador.area().getCenterY()- pantalla.bum.area().getHeight()/2); ;
-                               pantalla.obs_c.y=1100;
+                               pantalla.obs_c.y += 200;
+                               pantalla.jugador.x = 450;
                                 cont = 1;
+                                pantalla.jugador.vidas -= 1;
+                                pantalla.jugador.puntaje-=20;
                 try {
                     sonido.sonido(sonido.explosion);
-                } catch (IOException ex) {}               
+                } catch (IOException ex) {} 
+                vidas();
             }
             
             if( pantalla.jugador.area().intersects(pantalla.gasoil.area())){
                 pantalla.gasoil.y = 1100;
-                pantalla.jugador.cant_gasoil += 20;
-                pantalla.jugador.puntaje += 50;
+                pantalla.jugador.cant_gasoil = 100;
+                pantalla.jugador.puntaje += 10;
                       try {
                     sonido.sonido(sonido.gas);
                 } catch (IOException ex) {}
+                      pantalla.rio.bargasx=400;
             }
             
             if (pantalla.bala.area().intersects(pantalla.enemigo1.area())){
@@ -135,19 +183,40 @@ public class Juego extends JFrame{
                 pantalla.enemigo1.y = 1100;
                 pantalla.bala.y = -20;
                 cont=1;
-                pantalla.jugador.puntaje += 100;
+                pantalla.jugador.puntaje += 50;
             }
-            
+            if (pantalla.bala.area().intersects(pantalla.enemigo2.area())){
+                try {
+                    sonido.sonido(sonido.explosion);
+                }catch (IOException ex) {}
+                pantalla.bum.x = (int)(pantalla.enemigo2.area().getCenterX()- pantalla.bum.area().getWidth()/2);
+                pantalla.bum.y = (int)(pantalla.enemigo2.area().getCenterY()- pantalla.bum.area().getHeight()/2);
+                pantalla.enemigo2.y = 1100;
+                pantalla.bala.y = -20;
+                cont=1;
+                pantalla.jugador.puntaje += 50;
+            }
+                        if (pantalla.bala.area().intersects(pantalla.enemigo3.area())){
+                try {
+                    sonido.sonido(sonido.explosion);
+                }catch (IOException ex) {}
+                pantalla.bum.x = (int)(pantalla.enemigo3.area().getCenterX()- pantalla.bum.area().getWidth()/2);
+                pantalla.bum.y = (int)(pantalla.enemigo3.area().getCenterY()- pantalla.bum.area().getHeight()/2);
+                pantalla.enemigo3.y = 1100;
+                pantalla.bala.y = -20;
+                cont=1;
+                pantalla.jugador.puntaje += 50;
+            }            
             if (pantalla.bala.area().intersects(pantalla.gasoil.area())){
                 try {
                     sonido.sonido(sonido.explosion);
                 } catch (IOException ex) {}
-                pantalla.bum.x = (int)(pantalla.enemigo1.area().getCenterX()- pantalla.gasoil.area().getWidth()/2);
-                pantalla.bum.y = (int)(pantalla.enemigo1.area().getCenterY()- pantalla.gasoil.area().getHeight()/2);
+                pantalla.bum.x = (int)(pantalla.gasoil.area().getCenterX()- pantalla.bum.area().getWidth()/2);
+                pantalla.bum.y = (int)(pantalla.gasoil.area().getCenterY()- pantalla.bum.area().getHeight()/2);
                 pantalla.gasoil.y = 1100;
                 pantalla.bala.y = -20;
                 cont=1;
-                pantalla.jugador.puntaje -= 100;
+                pantalla.jugador.puntaje -= 50;
             }
             
             if(pantalla.bala.area().intersects(pantalla.obs_c.area())){
@@ -158,15 +227,60 @@ public class Juego extends JFrame{
                 pantalla.bum.y= 1100;
             }  
             
-            if (pantalla.enemigo1.y > 850){
+            if (pantalla.enemigo1.y > 850){   
                 pantalla.enemigo1.x = num.nextInt(800);
-                pantalla.enemigo1.y = -200;
+                pantalla.enemigo1.y = -10;
             }
             for (int i = 0; i < 350; i++) {
                 if (pantalla.enemigo1.y<=0) {
                     if(pantalla.enemigo1.area().intersects(pantalla.paredd[i].area())||pantalla.enemigo1.area().intersects(pantalla.paredi[i].area()))
-                        pantalla.enemigo1.x=num.nextInt(700);
+                        pantalla.enemigo1.x=num.nextInt(200)+250;
                 }
+            }
+            
+            if (pantalla.enemigo2.y > 850){   
+                pantalla.enemigo2.x = num.nextInt(800);
+                pantalla.enemigo2.y = -10;
+            }
+            for (int i = 0; i < 350; i++) {
+                if (pantalla.enemigo2.y<=0) {
+                    if(pantalla.enemigo2.area().intersects(pantalla.paredd[i].area())||pantalla.enemigo2.area().intersects(pantalla.paredi[i].area()))
+                        pantalla.enemigo2.x=num.nextInt(200)+250;
+                }
+            }
+            if (pantalla.enemigo3.y > 850){   
+                pantalla.enemigo3.x = num.nextInt(800);
+                pantalla.enemigo3.y = -10;
+            }
+            for (int i = 0; i < 350; i++) {
+                if (pantalla.enemigo3.y<=0) {
+                    if(pantalla.enemigo3.area().intersects(pantalla.paredd[i].area())||pantalla.enemigo3.area().intersects(pantalla.paredi[i].area()))
+                        pantalla.enemigo3.x=num.nextInt(200)+250;
+                }
+            }            
+            
+            for (int i = 0; i < 350; i++) {
+                
+                    if(pantalla.jugador.area().intersects(pantalla.paredd[i].area())){
+                        pantalla.bum.x = (int)(pantalla.jugador.area().getCenterX()- pantalla.bum.area().getWidth()/2);
+                        pantalla.bum.y = (int)(pantalla.jugador.area().getCenterY()- pantalla.bum.area().getHeight()/2); ;
+                               cont = 1;
+                               pantalla.jugador.vidas -= 1;
+                               pantalla.jugador.x = 450;
+                               pantalla.jugador.puntaje-=25;
+                               vidas();
+                    }
+                    if(pantalla.jugador.area().intersects(pantalla.paredi[i].area())){
+                        pantalla.bum.x = (int)(pantalla.jugador.area().getCenterX()- pantalla.bum.area().getWidth()/2);
+                        pantalla.bum.y = (int)(pantalla.jugador.area().getCenterY()- pantalla.bum.area().getHeight()/2); ;
+                               cont = 1;
+                               pantalla.jugador.vidas -= 1;
+                               pantalla.jugador.x = 450;
+                               pantalla.jugador.puntaje-=25;
+                               vidas();
+                        
+                    }    
+                
             }
             
             if (pantalla.obs_c.y > 850){                
@@ -176,21 +290,47 @@ public class Juego extends JFrame{
             
             if (pantalla.rio.y>=-10 || pantalla.jugador.cant_gasoil <= 0){
                 tiempo.stop();
-                JOptionPane.showMessageDialog(null,"Termino el Juego");
-                JOptionPane.showMessageDialog(null,"Su gasolina quedo en: " + pantalla.jugador.cant_gasoil);
-                JOptionPane.showMessageDialog(null,"Su puntaje fue: " + pantalla.jugador.puntaje);
-                System.exit(0);
+                JOptionPane.showMessageDialog(null,"Perdio una vida");
+                JOptionPane.showMessageDialog(null,"Su gasolina quedo en:0");
+                pantalla.jugador.cant_gasoil = 100;
+                pantalla.jugador.vidas--;
+                pantalla.rio.bargasx=400;
             }
             
             if (pantalla.enemigo1.area().getMinX()<=1 || pantalla.enemigo1.area().getMaxX() >= pantalla.getWidth()){
-                b=b*(-1);
-            }
-            
+                b1=b1*(-1);
+            }            
             for (int i = 0; i < 350; i++) {                
                 if(pantalla.enemigo1.area().intersects(pantalla.paredd[i].area())||pantalla.enemigo1.area().intersects(pantalla.paredi[i].area())){
-                    b=b*(-1);
+                    b1=b1*(-1);
                 }
-            }    
+            }
+            if (pantalla.enemigo2.area().getMinX()<=1 || pantalla.enemigo2.area().getMaxX() >= pantalla.getWidth()){
+                b2=b2*(-1);
+            }            
+            for (int i = 0; i < 350; i++) {                
+                if(pantalla.enemigo2.area().intersects(pantalla.paredd[i].area())||pantalla.enemigo2.area().intersects(pantalla.paredi[i].area())){
+                    b2=b2*(-1);
+                }
+            }
+            if (pantalla.enemigo3.area().getMinX()<=1 || pantalla.enemigo3.area().getMaxX() >= pantalla.getWidth()){
+                b3=b3*(-1);
+            }            
+            for (int i = 0; i < 350; i++) {                
+                if(pantalla.enemigo3.area().intersects(pantalla.paredd[i].area())||pantalla.enemigo3.area().intersects(pantalla.paredi[i].area())){
+                    b3=b3*(-1);
+                }
+            }            
+            
+            if(pantalla.jugador.vidas == 0){
+                tiempo.stop();
+                JOptionPane.showMessageDialog(null,"Termino el Juego, Ha perdido todas sus vidas\nSu puntaje Fue : " + pantalla.jugador.puntaje);
+                top_10();
+                System.exit(0);  
+            }
+            
+           
+            
             repaint();            
         }
     };
@@ -222,7 +362,7 @@ public class Juego extends JFrame{
             }            
             if(e.getKeyCode() == KeyEvent.VK_UP){
                 pantalla.tdt=10;
-                pantalla.mov=30; 
+                pantalla.mov=18; 
                 pantalla.jugador.nave = pantalla.jugador.naveacel;
             }            
             repaint();            
@@ -232,7 +372,7 @@ public class Juego extends JFrame{
         public void keyReleased(KeyEvent e) {
             if(e.getKeyCode() == KeyEvent.VK_UP){
                 pantalla.tdt=25;
-                pantalla.mov=15;  
+                pantalla.mov=9;  
                 pantalla.jugador.nave = new Jugador().nave;
             }
         }         
@@ -241,38 +381,77 @@ public class Juego extends JFrame{
 
     ActionListener time = new ActionListener(){        
         public void actionPerformed(ActionEvent e) { 
-            aux++;
-            String aux2 = Integer.toString(aux);            
-            System.out.println("00:"+aux2);
-            if(aux %5 == 0){ // aparece gasolina cada 5 segundos
+            auxs++;
+            if(auxs==60){
+                auxs=0;
+                auxm=01;
+            }
+            pantalla.rio.tiempo=("0"+auxm+":"+auxs);
+            if(auxs %5 == 0){ // aparece gasolina cada 5 segundos
                 int band=0;
                 for (int i = 0; i < 350; i++) {
-                    pantalla.gasoil.x = num.nextInt(700);
+                    pantalla.gasoil.x = num.nextInt(400)+250;
                         pantalla.gasoil.y = 0;
-                    if(pantalla.paredd[i].area().intersects(pantalla.gasoil.area()) || pantalla.paredi[i].area().intersects(pantalla.gasoil.area())){
-                        pantalla.gasoil.x = num.nextInt(700);
+                    if(pantalla.paredd[i].area().contains(pantalla.gasoil.area()) || pantalla.paredi[i].area().contains(pantalla.gasoil.area())){
+                        pantalla.gasoil.x = num.nextInt(400+250);
                         pantalla.gasoil.y = 0;
                     }
-                    if(pantalla.paredd[i].area().intersects(pantalla.enemigo1.area()) || pantalla.paredi[i].area().intersects(pantalla.enemigo1.area())){
-                        pantalla.enemigo1.x = num.nextInt(700);
+                    if(pantalla.paredd[i].area().contains(pantalla.enemigo1.area()) || pantalla.paredi[i].area().contains(pantalla.enemigo1.area())){
+                        pantalla.enemigo1.x = num.nextInt(400)+250;
                         pantalla.enemigo1.y = 0;
+                    }
+                    if(pantalla.paredd[i].area().contains(pantalla.enemigo2.area()) || pantalla.paredi[i].area().contains(pantalla.enemigo2.area())){
+                        pantalla.enemigo2.x = num.nextInt(400)+250;
+                        pantalla.enemigo2.y = 0;
+                    }
+                    if(pantalla.paredd[i].area().contains(pantalla.enemigo3.area()) || pantalla.paredi[i].area().contains(pantalla.enemigo3.area())){
+                        pantalla.enemigo3.x = num.nextInt(400)+250;
+                        pantalla.enemigo3.y = 0;
                     }                    
                 }
   
             }
-            if(aux %3 == 0){ // disminuye gasolina cada 3 seguntos
-                pantalla.jugador.cant_gasoil -=0;
-            }
+ // disminuye gasolina cada 3 seguntos
+                pantalla.jugador.cant_gasoil -=14;
+                pantalla.rio.bargasx-=54;
+
         }
     }; 
  
     public void cerrar(){
         System.exit(0);        
     }
-
-//    public static void main(String[] args) {
-//        Juego obj = new Juego();
-//        
-//   }
     
+    public void vidas(){
+        tiempo.stop();
+        pantalla.bum.x=445;
+        if(pantalla.jugador.vidas != 0){
+            JOptionPane.showMessageDialog(null,"Ha perdido una vida.");
+        }
+        pantalla.mov = 9;
+        pantalla.enemigo1.y=-200;
+        pantalla.enemigo2.y=-200;
+        pantalla.enemigo3.y=-200;
+        pantalla.obs_c.y=-200;
+        t1.restart();
+        tiempo.restart();
+    }
+    
+    public void top_10(){
+
+                        try {                            
+                            File archivo = new File("Usuarios.txt");
+                            FileWriter fw = new FileWriter(archivo,true);                      
+                            BufferedWriter bw = new BufferedWriter(fw);                            
+                            fw.append(pantalla.jugador.puntaje + "\r\n");
+                            fw.close();//cierro                            
+                            bw.newLine();//creo una nueva linea                            
+                        } catch (IOException e) {
+                            
+                            System.out.println("Error en escritura de archivo...");
+                            
+                        }
+        
+    }
+
 }

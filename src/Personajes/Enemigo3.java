@@ -7,16 +7,16 @@ import java.io.IOException;
 import java.util.Random;
 import javax.imageio.ImageIO;
 
-public class Enemigo {    
+public class Enemigo3 {    
     public int x, y;
     public Image enemigo;
     public Random n = new Random();
     
-    public Enemigo(){        
-        x = n.nextInt(800) ;
-        y = 0;        
+    public Enemigo3(){        
+        x = n.nextInt(250)+250 ;
+        y = -300;        
         try{            
-            enemigo = ImageIO.read( new File("src/Imagenes/Npc/enemigo1.png"));            
+            enemigo = ImageIO.read( new File("src/Imagenes/Npc/enemigo3.png"));            
         } catch (IOException e){            
             System.out.println("La Imagen no se Encontró...");            
         }        

@@ -19,11 +19,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class Menu extends JFrame{    
-    Panel panel;
+    Panel panel = new Panel();
     Sfx sonido = new Sfx();
     Image logo;
     public Menu(){        
-        panel = new Panel();
+        panel.iniciar();
         iniciar(); 
     }
     

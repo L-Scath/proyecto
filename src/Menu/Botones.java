@@ -6,10 +6,18 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-
+/**
+*Clase Botones, contiene los botones que se usan en el menu Principal
+*@author Luis Uzcategui y Luis Torres
+*/
 public class Botones {
-    
+    /**
+     * 
+     */
     int x, y, band, seleccion;
+    /**
+     * 
+     */
     JLabel jugar, creditos, ayuda, salir, top;
     
     public Botones(){        
