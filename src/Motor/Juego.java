@@ -26,7 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class Juego extends JFrame{
-    Panel p;
+    Panel r;
     Random num, n;
     Timer t1, tiempo;
     Lienzo pantalla;
@@ -43,7 +43,7 @@ public class Juego extends JFrame{
     Image logo;
     
 
-    public Juego(){
+    public Juego(){        
         sonido=new Sfx();
         pantalla = new Lienzo();
         tiempo = new Timer(1000,time);        
@@ -96,11 +96,15 @@ public class Juego extends JFrame{
             pantalla.rio.puntaje=Integer.toString(pantalla.jugador.puntaje);
             pantalla.gasoil.y += pantalla.mov;
             pantalla.enemigo1.y += pantalla.mov;
+<<<<<<< HEAD
             pantalla.enemigo1.x += pantalla.mov*b1;
             pantalla.enemigo2.y += pantalla.mov;
             pantalla.enemigo2.x += pantalla.mov+25*b2;
             pantalla.enemigo3.y += pantalla.mov+30;
             pantalla.enemigo3.x += pantalla.mov*b3;
+=======
+            pantalla.enemigo1.x += pantalla.mov*b ;
+>>>>>>> origin/master
             pantalla.bala.y -= 30;
             pantalla.rio.y+=pantalla.mov;
             pantalla.bum.y+=pantalla.mov;
@@ -167,7 +171,11 @@ public class Juego extends JFrame{
             if( pantalla.jugador.area().intersects(pantalla.gasoil.area())){
                 pantalla.gasoil.y = 1100;
                 pantalla.jugador.cant_gasoil = 100;
+<<<<<<< HEAD
                 pantalla.jugador.puntaje += 10;
+=======
+                pantalla.jugador.puntaje += 50;
+>>>>>>> origin/master
                       try {
                     sonido.sonido(sonido.gas);
                 } catch (IOException ex) {}
@@ -228,7 +236,11 @@ public class Juego extends JFrame{
             }  
             
             if (pantalla.enemigo1.y > 850){   
+<<<<<<< HEAD
                 pantalla.enemigo1.x = num.nextInt(800);
+=======
+                pantalla.enemigo1.x = num.nextInt(400)+250;
+>>>>>>> origin/master
                 pantalla.enemigo1.y = -10;
             }
             for (int i = 0; i < 350; i++) {
@@ -381,6 +393,7 @@ public class Juego extends JFrame{
 
     ActionListener time = new ActionListener(){        
         public void actionPerformed(ActionEvent e) { 
+<<<<<<< HEAD
             auxs++;
             if(auxs==60){
                 auxs=0;
@@ -388,6 +401,13 @@ public class Juego extends JFrame{
             }
             pantalla.rio.tiempo=("0"+auxm+":"+auxs);
             if(auxs %5 == 0){ // aparece gasolina cada 5 segundos
+=======
+            aux++;
+            String aux2 = Integer.toString(aux);            
+            System.out.println("00:"+aux2);
+            pantalla.rio.tiempo=("00:"+aux2);
+            if(aux %5 == 0){ // aparece gasolina cada 5 segundos
+>>>>>>> origin/master
                 int band=0;
                 for (int i = 0; i < 350; i++) {
                     pantalla.gasoil.x = num.nextInt(400)+250;
@@ -411,10 +431,15 @@ public class Juego extends JFrame{
                 }
   
             }
+<<<<<<< HEAD
  // disminuye gasolina cada 3 seguntos
                 pantalla.jugador.cant_gasoil -=14;
                 pantalla.rio.bargasx-=54;
 
+=======
+                pantalla.jugador.cant_gasoil -=14;
+                pantalla.rio.bargasx-=54;
+>>>>>>> origin/master
         }
     }; 
  

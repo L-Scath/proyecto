@@ -51,7 +51,10 @@ public class Lienzo extends JPanel{
         bala.y = -1000;
         this.setFont(this.getFont().deriveFont( 25.0f ));
         this.setForeground(Color.white);
+<<<<<<< HEAD
         
+=======
+>>>>>>> origin/master
     }
 
     @Override
@@ -77,7 +80,10 @@ public class Lienzo extends JPanel{
         g2.drawImage(rio.score,725,0,this);    
         g2.drawImage(rio.vidas[jugador.vidas],this.getWidth()-(int)rio.vidas[0].getWidth(this),this.getHeight()-(int)rio.vidas[0].getHeight(this), this);
         g2.drawString(rio.tiempo,770,37);
+<<<<<<< HEAD
         g2.drawString(rio.puntaje,880,37);
+=======
+>>>>>>> origin/master
     }   
     
 }
