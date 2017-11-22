@@ -11,13 +11,8 @@ import javax.swing.JLabel;
 *@author Luis Uzcategui y Luis Torres
 */
 public class Botones {
-    /**
-     * 
-     */
+
     int x, y, band, seleccion;
-    /**
-     * 
-     */
     JLabel jugar, creditos, ayuda, salir, top;
     
     public Botones(){        
