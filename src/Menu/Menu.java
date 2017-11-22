@@ -18,15 +18,27 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**Declaracion de la Clase Menu que Hera de JFrame
+ * 
+ * @author Luis Uzcategui y Luis Torres
+ */
+
 public class Menu extends JFrame{    
     Panel panel = new Panel();
     Sfx sonido = new Sfx();
     Image logo;
+    
+    /**Creacion del Constructor de la clase Menu
+     * 
+     */
     public Menu(){        
         panel.iniciar();
         iniciar(); 
     }
     
+    /**Metodo Iniciar, carga el menu del juego
+     * 
+     */ 
     public void iniciar(){
         try {            
             logo = ImageIO.read(new File("src/Imagenes/Menu/logo.png"));            
@@ -45,6 +57,10 @@ public class Menu extends JFrame{
         super.setVisible(true);
     }
     
+    /**Creacion del Main Principal
+     * 
+     * @param args 
+     */
     public static void main(String[] args) {        
         Menu obj = new Menu();
     }

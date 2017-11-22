@@ -13,6 +13,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
 
+/**Declaracion de la CLase Lienzo que Hereda un JPanel
+ * 
+ * @author Luis Uzcategui y Luis Torres
+ */
+
 public class Lienzo extends JPanel{
     
     public Enemigo1 enemigo1;
@@ -28,6 +33,10 @@ public class Lienzo extends JPanel{
     Terreno obs_c;
     public ParedIzq []paredi=new ParedIzq[350]; 
     public ParedDer []paredd=new ParedDer[350];  
+    
+    /**Creacion del Constructor de Lienzo, este instancea todos los componentes del juego
+     * 
+     */
     
     public Lienzo(){
         for (int i = 0; i < 350; i++) {
@@ -53,6 +62,10 @@ public class Lienzo extends JPanel{
         this.setForeground(Color.white);
     }
 
+    /**Metodo paintComponent, en donde se pintan los componentes del juego
+     * 
+     * @param g 
+     */
     @Override
     protected void paintComponent(Graphics g) {        
         super.paintComponent(g); //To change body of generated methods, choose Tools | Templates.        

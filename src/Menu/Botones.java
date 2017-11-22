@@ -15,6 +15,9 @@ public class Botones {
     int x, y, band, seleccion;
     JLabel jugar, creditos, ayuda, salir, top;
     
+    /**Creacion del Constructor de Botones(), en donde se inicializan los JLabels a utilizar  
+     * como botones.
+     */
     public Botones(){        
         x = 20;
         y = 25;

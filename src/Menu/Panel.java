@@ -26,6 +26,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 
+/**Declaracion de la Clase Panel que Hereda un JPanel
+ * 
+ * @author Luis Uzcategui y Luis Torres
+ */
+
 public class Panel extends JPanel{
     Image fond;
     Botones botones;
@@ -38,10 +43,15 @@ public class Panel extends JPanel{
     Juego j;
     JButton []espacioenblanco=new JButton[5];
     
+    /**Creacion del Constructor del Panel
+     * 
+     */
     public Panel(){
         
     }
-
+    /**Metodo Iniciar, se crea un nuevo juego, se agregan los botones y se llama al metodo Eventos. 
+     * 
+     */
     public void iniciar(){
         
         j = new Juego();
@@ -70,6 +80,10 @@ public class Panel extends JPanel{
         repaint();
         
     }
+    
+    /**Metodo Evento, es donde se capturan los eventos del menu principal
+     * 
+     */ 
     public void eventos(){
         botones.jugar.addMouseListener(new MouseAdapter(){  
             int auxselec=0;
@@ -89,7 +103,7 @@ public class Panel extends JPanel{
                             FileWriter fw = new FileWriter(archivo,true);                      
                             BufferedWriter bw = new BufferedWriter(fw);
                             
-                            fw.append(nombre + "-");
+                            fw.append(nombre + ";");
                             fw.close();//cierro
                             
                             
@@ -168,6 +182,9 @@ public class Panel extends JPanel{
         } );        
     }
     
+    /**Metodo ordenar, guarda los puntos y nombres respectivamente de cada usuario que ingreso
+     * para luego generar el top 10.
+     */ 
     public void ordenar(){
         try {
                             
@@ -195,9 +212,13 @@ public class Panel extends JPanel{
                         }
         
     }
-        
-        protected void paintComponent(Graphics g) {        
-        super.paintComponent(g); //To change body of generated methods, choose Tools | Templates.        
+    
+    /**Metodo paintComponent, en donde se pintan las imagenes
+     * 
+     * @param g 
+     */
+    protected void paintComponent(Graphics g) {        
+        super.paintComponent(g);         
         Graphics2D g2 = (Graphics2D) g;
             g2.drawImage(this.fond,0,0,this);
     }

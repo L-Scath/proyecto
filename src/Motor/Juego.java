@@ -26,6 +26,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+/**Declaracion de la clase Juego que Hereda un JFrame
+ * 
+ * @author Luis Uzcategui y Luis Torres
+ */
+
 public class Juego extends JFrame{
     Panel p;
     Random num, n;
@@ -43,13 +48,19 @@ public class Juego extends JFrame{
     Menu m;
     Image logo;
     
-
+    /**Creacion del Constructor de Juego en donde se instancean el sonido, la pantalla y el tiempo
+     * 
+     */
     public Juego(){
         sonido=new Sfx();
         pantalla = new Lienzo();
         tiempo = new Timer(1000,time);        
     }
    
+    
+    /**Metodo Iniciar,es donde empieza la parte 2 del proyecto en este caso el Juego en si
+     * 
+     */
     public void iniciar(){ 
         try {            
             logo = ImageIO.read(new File("src/Imagenes/Menu/logo.png"));            
@@ -76,6 +87,9 @@ public class Juego extends JFrame{
                 
     }
     
+    /**Metodo CargarPared, es donde se crean las paredes derechas e izquierdas del juego
+     * 
+     */
     public void cargarPared(){
         Random randpared=new Random();
         for (int i = 1; i < 350; i++) {            
@@ -89,6 +103,9 @@ public class Juego extends JFrame{
                        
         }
     
+    /**Metodo Cargar Eventos, es donde se capturan todos los eventos del juego, como: moverse y disparar
+     * 
+     */
     public void cargar_eventos(){        
         movimiento_enemigo = new ActionListener(){       
         @Override
@@ -100,7 +117,7 @@ public class Juego extends JFrame{
             pantalla.enemigo1.x += pantalla.mov*b1;
             pantalla.enemigo2.y += pantalla.mov;
             pantalla.enemigo2.x += pantalla.mov+25*b2;
-            pantalla.enemigo3.y += pantalla.mov+30;
+            pantalla.enemigo3.y += pantalla.mov+10;
             pantalla.enemigo3.x += pantalla.mov*b3;
             pantalla.bala.y -= 30;
             pantalla.rio.y+=pantalla.mov;
@@ -329,9 +346,7 @@ public class Juego extends JFrame{
                 top_10();
                 System.exit(0);  
             }
-            
-           
-            
+
             repaint();            
         }
     };
@@ -413,16 +428,21 @@ public class Juego extends JFrame{
   
             }
  // disminuye gasolina cada 3 seguntos
-                pantalla.jugador.cant_gasoil -=14;
-                pantalla.rio.bargasx-=54;
+                pantalla.jugador.cant_gasoil -=07;
+                pantalla.rio.bargasx-=20;
 
         }
     }; 
- 
+    /**Metodo Cerrar, cierra el proyecto como tal
+     * 
+     */
     public void cerrar(){
         System.exit(0);        
     }
     
+    /**Metodo Vidas, es el metodo que se implementa luego de que pierde una vida
+     * 
+     */
     public void vidas(){
         tiempo.stop();
         pantalla.bum.x=445;
@@ -437,7 +457,10 @@ public class Juego extends JFrame{
         t1.restart();
         tiempo.restart();
     }
-    
+   
+    /**Metodo Top 10, guarga en un archivo (Usuarios) los puntos y el nombre del usuario actual.
+     * 
+     */
     public void top_10(){
 
                         try {                            
