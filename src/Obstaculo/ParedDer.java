@@ -6,7 +6,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 import javax.imageio.ImageIO;
+    
 
+/**Declaracion de la clase ParedDer
+ * 
+ * @author Luis Uzcategui y Luis Torres
+ */
     public class ParedDer {
         
     public int x, y;
